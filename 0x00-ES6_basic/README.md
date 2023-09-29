@@ -1,0 +1,1 @@
+Directory for all files and tasks under 0x00-ES6_basic in the ALX SE programmeS
