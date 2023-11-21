@@ -26,12 +26,14 @@ fs.createReadStream("./database.csv")
     }
   })
   .on("end", function () {
+    const csNamesString = csNames.toLocaleString();
+    const sweNamesString = sweNames.toLocaleString();
     console.log("finished");
     console.log(`Number of Students: ${studentCounter}`);
-    console.log(`Number of CS Students: ${csStudents}`);
-    console.log(`Number of SWE Students: ${sweStudents}`);
-    console.log(csNames.toLocaleString());
-    console.log(sweNames.toLocaleString());
+    console.log(`Number of CS Students: ${csStudents}. List: ${csNamesString}`);
+    console.log(`Number of SWE Students: ${sweStudents}. List: ${sweNamesString}`);
+    // console.log(csNames.toLocaleString());
+    // console.log(sweNames.toLocaleString());
   })
   .on("error", function (error) {
     console.log(error.message);
