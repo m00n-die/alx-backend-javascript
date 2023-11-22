@@ -1,48 +1,47 @@
-const fs = require('fs');
-const { parse } = require('csv-parse');
-
-let studentCounter = 0;
-let csStudents = 0;
-let sweStudents = 0;
-
-const csNames = [];
-const sweNames = [];
+const { fs } = require('fs');
 
 function countStudents(filePath) {
-  if (!filePath) {
-    throw new Error('Cannot load the database');
-  }
-
-  fs.createReadStream(filePath)
-    .pipe(parse({ delimiter: ',', from_line: 2 }))
-    .on('data', (row) => {
-      studentCounter += 1;
-      // console.log(studentCounter);
-      const check = row[3];
-      // console.log(csCheck);
-      if (check.toLowerCase() === 'cs') {
-        // console.log("CS student!");
-        csStudents += 1;
-        csNames.push(row[0]);
+  const allStudents = {};
+  const fields = {};
+  let length = 0;
+  
+  return new Promise((resolve, reject) => {
+    fs(fileName, (error, data) => {
+      if (error) {
+        reject(Error('Cannot load the database'));
       } else {
-        // console.log("SWE Student!");
-        sweStudents += 1;
-        sweNames.push(row[0]);
+        const lines = data.toString().split('\n');
+        
+        for (let i = 0; i < lines.length; i += 1) {
+          if (lines[i]) {
+            length += 1;
+            const field = lines[i].toString().split(',');
+            
+            if (Object.prototype.hasOwnProperty.call(allStudents, field[3])) {
+              allStudents[field[3]].push(field[0]);
+            } else {
+              allStudents[field[3]] = [field[0]];
+            }
+            
+            if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+              fields[field[3]] += 1;
+            } else {
+              fields[field[3]] = 1;
+            }
+          }
+        }
+        
+        const val = length - 1;
+        console.log(`Number of students: ${val}`);
+        for (const [key, value] of Object.entries(fields)) {
+          if (key !== 'field') {
+            console.log(`Number of students in ${key}: ${value}. List: ${students[key].join(', ')}`);
+          }
+        }
+        resolve(data);
       }
-    })
-    .on('end', () => {
-      const csNamesString = csNames.toLocaleString();
-      const sweNamesString = sweNames.toLocaleString();
-      // console.log('finished');
-      console.log(`Number of Students: ${studentCounter}`);
-      console.log(`Number of CS Students: ${csStudents}. List: ${csNamesString}`);
-      console.log(`Number of SWE Students: ${sweStudents}. List: ${sweNamesString}`);
-      // console.log(csNames.toLocaleString());
-      // console.log(sweNames.toLocaleString());
-    })
-    .on('error', (error) => {
-      console.log(error.message);
     });
+  });
 }
 
 module.exports = countStudents;
