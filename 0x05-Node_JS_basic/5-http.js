@@ -61,6 +61,7 @@ const app = http.createServer((request, response) => {
     countStudents(process.argv[2].toString()).then((output) => {
       const outString = output.slice(0, -1);
       response.statusCode = 200;
+      response.setHeader('Content-Type', 'text/plain');
       response.end(outString);
     }).catch(() => {
       response.statusCode = 404;
