@@ -60,6 +60,7 @@ const app = http.createServer((request, response) => {
     response.write('This is the list of our students\n');
     countStudents(process.argv[2].toString()).then((output) => {
       const outString = output.slice(0, -1);
+      res.statusCode = 200;
       response.end(outString);
     }).catch(() => {
       response.statusCode = 404;
