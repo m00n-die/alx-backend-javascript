@@ -9,13 +9,12 @@ function countStudents(filePath) {
   const fields = {};
   let length = 0;
   return new Promise((resolve, reject) => {
-    readFile(filePath, (err, data) => {
+    fs(filePath, (err, data) => {
       if (err) {
         reject(err);
       } else {
-        
         let output = '';
-        
+
         const lines = data.toString().split('\n');
         for (let i = 0; i < lines.length; i += 1) {
           if (lines[i]) {
@@ -33,10 +32,10 @@ function countStudents(filePath) {
             }
           }
         }
-        
+
         const val = length - 1;
-        output += `Number of students: ${l}\n`;
-        
+        output += `Number of students: ${val}\n`;
+
         for (const [key, value] of Object.entries(fields)) {
           if (key !== 'field') {
             output += `Number of students in ${key}: ${value}. `;
@@ -56,7 +55,7 @@ const app = http.createServer((request, response) => {
     response.write('Hello Holberton School!');
     response.end();
   }
-  
+
   if (request.url === '/students') {
     response.write('This is the list of our students\n');
     countStudents(process.argv[2].toString()).then((output) => {
