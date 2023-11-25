@@ -2,19 +2,19 @@ const { fs } = require('../utils');
 
 class StudentsController {
   static getAllStudents(request, response) {
-  fs(process.argv[2].toString()).then((allStudents) => {
-  const result = [];
-  result.push('This is the list of our students');
+    fs(process.argv[2].toString()).then((allStudents) => {
+    const result = [];
+    result.push('This is the list of our students');
   
-  const keys = Object.keys(allStudents);
-  keys.sort();
-  for (let i = 0; i < keys.length; i += 1) {
-    result.push(`Number of students in ${keys[i]}: ${allStudents[keys[i]].length}. List: ${allStudents[keys[i]].join(', ')}`);
-  }
-  response.status(200).send(result.join('\n'));
-  }).catch(() => {
-    response.status(500).send('Cannot load the database');
-  });
+    const keys = Object.keys(allStudents);
+    keys.sort();
+    for (let i = 0; i < keys.length; i += 1) {
+      result.push(`Number of students in ${keys[i]}: ${allStudents[keys[i]].length}. List: ${allStudents[keys[i]].join(', ')}`);
+    }
+    response.status(200).send(result.join('\n'));
+    }).catch(() => {
+      response.status(500).send('Cannot load the database');
+    });
   }
 
   static getAllStudentsByMajor(request, response) {
@@ -29,6 +29,6 @@ class StudentsController {
       response.status(500).send('Cannot load the database');
     });
     }
-  }
+}
 
 module.exports = StudentsController;
