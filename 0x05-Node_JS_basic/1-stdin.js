@@ -3,7 +3,7 @@ const { stdin: input, stdout: output } = require('node:process');
 const rl = readline.createInterface({ input, output });
 
 
-process.on("exit", function() {
+process.stdin.on("end", function() {
   console.log("This important software is now closing");
 });
 
