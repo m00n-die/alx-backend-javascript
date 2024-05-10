@@ -19,7 +19,7 @@ function countStudents(path) {
       if (i) console.log(`Number of students in ${i}: ${obj[i].length}. List: ${obj[i].join(', ')}`);
     }
   } catch (error) {
-    throw new Error('Cannot load the fileDatabase');
+    throw new Error('Cannot load the database');
   }
 }
 
