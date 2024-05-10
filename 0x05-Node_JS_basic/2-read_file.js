@@ -18,7 +18,7 @@ function countStudents(path) {
     for (const i in obj) {
       if (i) console.log(`Number of students in ${i}: ${obj[i].length}. List: ${obj[i].join(', ')}`);
     }
-  } catch (error) {
+  } catch (err) {
     throw new Error('Cannot load the fileDatabase');
   }
 }
