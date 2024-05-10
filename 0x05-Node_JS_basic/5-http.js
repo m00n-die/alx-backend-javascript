@@ -1,6 +1,8 @@
 const http = require('http');
-
 const { readFile } = require('fs');
+
+const hostname = '127.0.0.1';
+const port = 1245;
 
 function countStudents(fileName) {
   const students = {};
@@ -47,11 +49,6 @@ function countStudents(fileName) {
   });
 }
 
-module.exports = countStudents;
-
-const hostname = '127.0.0.1';
-const port = 1245;
-
 const app = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
@@ -64,8 +61,9 @@ const app = http.createServer((req, res) => {
   if (req.url === '/students') {
     res.write('This is the list of our students\n');
     countStudents(process.argv[2].toString()).then((output) => {
-      const display = output.slice(0, -1);
-      res.end(display);
+      const displayString = output.slice(0, -1);
+      res.write(displayString);
+      res.end();
     }).catch(() => {
       res.statusCode = 404;
       res.end('Cannot load the database');
